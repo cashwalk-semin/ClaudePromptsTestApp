@@ -14,7 +14,7 @@ if [ ! -d ".git" ]; then
 fi
 
 # 2. submodule 초기화
-if [ ! -d "./prompts/.git" ]; then
+if [ ! -d "./prompts/.git" ] && ! git config --file .gitmodules --get-regexp path | grep -q "^submodule\.prompts\.path prompts$"; then
   echo "🌀 submodule 초기 등록 중..."
   git submodule add https://github.com/cashwalk-semin/ClaudePrompt.git prompts
 fi
@@ -35,4 +35,4 @@ PROMPT=$(cat "$PROMPT_PATH")
 
 # 6. Claude 실행
 echo "🚀 Claude 실행 중..."
-claude code --prompt "$PROMPT" "$@"
+claude "$PROMPT" "$@"
